@@ -13,35 +13,7 @@ interface TicketContextType {
 
 export const TicketContext = createContext<TicketContextType | undefined>(undefined);
 
-const initialTickets: Ticket[] = [
-    {
-        id: 'TICKET-001',
-        deviceName: 'Dell XPS 15',
-        issueDescription: 'Screen is flickering after the latest windows update. It seems to be a driver issue.',
-        priority: 'High',
-        status: 'Pending',
-        submittedBy: 'user',
-        createdAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(),
-    },
-    {
-        id: 'TICKET-002',
-        deviceName: 'Logitech MX Master 3',
-        issueDescription: 'The scroll wheel is not working. I have tried reconnecting it but the issue persists.',
-        priority: 'Medium',
-        status: 'Pending',
-        submittedBy: 'user',
-        createdAt: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000).toISOString(),
-    },
-    {
-        id: 'TICKET-003',
-        deviceName: 'Office Printer HP-2B',
-        issueDescription: 'Printer is out of black ink. Needs a new cartridge.',
-        priority: 'Low',
-        status: 'Done',
-        submittedBy: 'user',
-        createdAt: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString(),
-    },
-];
+const initialTickets: Ticket[] = [];
 
 
 export function TicketProvider({ children }: { children: ReactNode }) {
