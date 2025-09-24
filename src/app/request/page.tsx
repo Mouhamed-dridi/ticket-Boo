@@ -24,7 +24,6 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import {
   Select,
   SelectContent,
@@ -37,14 +36,23 @@ import { useToast } from "@/hooks/use-toast";
 import { Loader2 } from "lucide-react";
 
 const requestFormSchema = z.object({
-  deviceName: z.string().min(2, {
-    message: "Device name must be at least 2 characters.",
-  }),
-  issueDescription: z.string().min(10, {
-    message: "Please describe the issue in at least 10 characters.",
-  }),
-  priority: z.enum(["Low", "Medium", "High"]),
+  name: z.string().min(2, { message: "Name must be at least 2 characters." }),
+  id: z.string().min(1, { message: "ID is required." }),
+  deviceProblem: z.string({ required_error: "Please select a problem type." }),
+  site: z.string({ required_error: "Please select a site." }),
+  postName: z.string({ required_error: "Please select a post name." }),
 });
+
+const problemTypes = [
+    "Slow performance",
+    "Won't turn on",
+    "Software issue",
+    "Hardware damage",
+    "Connectivity problem",
+    "Other"
+];
+const sites = ["Head Office", "Branch A", "Branch B"];
+const postNames = ["Manager", "Developer", "Designer", "Support Staff"];
 
 export default function RequestPage() {
   const { user, loading: authLoading } = useAuth();
@@ -55,9 +63,8 @@ export default function RequestPage() {
   const form = useForm<z.infer<typeof requestFormSchema>>({
     resolver: zodResolver(requestFormSchema),
     defaultValues: {
-      deviceName: "",
-      issueDescription: "",
-      priority: "Medium",
+      name: "",
+      id: "",
     },
   });
 
@@ -77,8 +84,9 @@ export default function RequestPage() {
 
   function onSubmit(values: z.infer<typeof requestFormSchema>) {
     addTicket({
-      ...values,
-      priority: values.priority as "Low" | "Medium" | "High",
+      deviceName: values.deviceProblem, // Re-using deviceName for the problem
+      issueDescription: `Site: ${values.site}, Post: ${values.postName}, User: ${values.name} (${values.id})`,
+      priority: 'Medium', // Defaulting priority as it's not in the new form
       submittedBy: user!.username,
     });
     toast({
@@ -96,58 +104,100 @@ export default function RequestPage() {
           <CardHeader>
             <CardTitle className="text-2xl">Submit a new IT Request</CardTitle>
             <CardDescription>
-              Please fill out the form below to report an issue with a device.
+              Please fill out the form below to report an issue.
             </CardDescription>
           </CardHeader>
           <CardContent>
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+                    <FormField
+                    control={form.control}
+                    name="name"
+                    render={({ field }) => (
+                        <FormItem>
+                        <FormLabel>Name</FormLabel>
+                        <FormControl>
+                            <Input placeholder="e.g., John Doe" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                        </FormItem>
+                    )}
+                    />
+                    <FormField
+                    control={form.control}
+                    name="id"
+                    render={({ field }) => (
+                        <FormItem>
+                        <FormLabel>ID</FormLabel>
+                        <FormControl>
+                            <Input placeholder="e.g., 12345" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                        </FormItem>
+                    )}
+                    />
+                </div>
                 <FormField
                   control={form.control}
-                  name="deviceName"
+                  name="deviceProblem"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Device Name</FormLabel>
-                      <FormControl>
-                        <Input placeholder="e.g., Dell Laptop, Office Printer" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="issueDescription"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Issue Description</FormLabel>
-                      <FormControl>
-                        <Textarea
-                          placeholder="Describe the problem in detail..."
-                          className="min-h-32"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="priority"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Priority</FormLabel>
+                      <FormLabel>Device Problem</FormLabel>
                       <Select onValueChange={field.onChange} defaultValue={field.value}>
                         <FormControl>
                           <SelectTrigger>
-                            <SelectValue placeholder="Select a priority level" />
+                            <SelectValue placeholder="Select a problem type" />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
-                          <SelectItem value="Low">Low</SelectItem>
-                          <SelectItem value="Medium">Medium</SelectItem>
-                          <SelectItem value="High">High</SelectItem>
+                          {problemTypes.map(problem => (
+                            <SelectItem key={problem} value={problem}>{problem}</SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="site"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Site</FormLabel>
+                      <Select onValueChange={field.onChange} defaultValue={field.value}>
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select a site" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          {sites.map(site => (
+                             <SelectItem key={site} value={site}>{site}</SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                 <FormField
+                  control={form.control}
+                  name="postName"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Post Name</FormLabel>
+                      <Select onValueChange={field.onChange} defaultValue={field.value}>
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select a post name" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                           {postNames.map(post => (
+                             <SelectItem key={post} value={post}>{post}</SelectItem>
+                          ))}
                         </SelectContent>
                       </Select>
                       <FormMessage />
