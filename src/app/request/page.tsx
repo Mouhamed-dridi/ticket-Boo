@@ -36,8 +36,8 @@ import { useToast } from "@/hooks/use-toast";
 import { Loader2 } from "lucide-react";
 
 const requestFormSchema = z.object({
-  name: z.string().min(2, { message: "Le nom doit comporter au moins 2 caractères." }),
-  id: z.string().min(1, { message: "L'ID est requis." }),
+  name: z.string().min(2, { message: "Le nom et prénom doit comporter au moins 2 caractères." }),
+  id: z.string().min(1, { message: "La matricule est requise." }),
   deviceProblem: z.string({ required_error: "Veuillez sélectionner un type de problème." }),
   site: z.string({ required_error: "Veuillez sélectionner un site." }),
   postName: z.string({ required_error: "Veuillez sélectionner un nom de poste." }),
@@ -114,7 +114,7 @@ export default function RequestPage() {
                     name="name"
                     render={({ field }) => (
                         <FormItem>
-                        <FormLabel>Nom</FormLabel>
+                        <FormLabel>Nom et Prénom</FormLabel>
                         <FormControl>
                             <Input placeholder="ex: Jean Dupont" {...field} />
                         </FormControl>
@@ -127,7 +127,7 @@ export default function RequestPage() {
                     name="id"
                     render={({ field }) => (
                         <FormItem>
-                        <FormLabel>ID</FormLabel>
+                        <FormLabel>Matricule</FormLabel>
                         <FormControl>
                             <Input placeholder="ex: 12345" {...field} />
                         </FormControl>
