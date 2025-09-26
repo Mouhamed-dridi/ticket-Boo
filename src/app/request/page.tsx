@@ -202,10 +202,12 @@ export default function RequestPage() {
                     </FormItem>
                   )}
                 />
-                <Button type="submit" className="w-full sm:w-auto" disabled={form.formState.isSubmitting}>
-                   {form.formState.isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                  Soumettre la demande
-                </Button>
+                <div className="flex justify-end">
+                    <Button type="submit" className="w-full sm:w-auto" disabled={form.formState.isSubmitting}>
+                    {form.formState.isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                    Soumettre la demande
+                    </Button>
+                </div>
               </form>
             </Form>
           </CardContent>
