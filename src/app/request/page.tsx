@@ -51,7 +51,7 @@ const problemTypes = [
     "Connectivity problem",
     "Other"
 ];
-const sites = ["Head Office", "Branch A", "Branch B"];
+const sites = ["misfat 1", "misfat 2", "misfat 3"];
 const postNames = ["Manager", "Developer", "Designer", "Support Staff"];
 
 export default function RequestPage() {
