@@ -44,12 +44,10 @@ const requestFormSchema = z.object({
 });
 
 const problemTypes = [
-    "Slow performance",
-    "Won't turn on",
-    "Software issue",
-    "Hardware damage",
-    "Connectivity problem",
-    "Other"
+    "printer label",
+    "codde bar",
+    "clave",
+    "souris"
 ];
 const sites = ["misfat 1", "misfat 2", "misfat 3"];
 const postNames = ["Manager", "Developer", "Designer", "Support Staff"];
