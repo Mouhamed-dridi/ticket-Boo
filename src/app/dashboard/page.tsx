@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { CheckCircle, XCircle, Loader2 } from "lucide-react";
+import { CheckCircle, XCircle, Loader2, Download } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { format, parseISO } from 'date-fns';
@@ -40,6 +40,41 @@ export default function DashboardPage() {
       archivedTickets: sortedTickets.filter(t => t.status === "Done" || t.status === "Cancelled"),
     };
   }, [tickets]);
+
+  const handleDownload = () => {
+    const csvHeader = "ID,Submitted By,Device Name,Issue Description,Priority,Status,Created At\n";
+    
+    const escapeCsvCell = (cellData: string) => {
+      // If the cell data contains a comma, double quote, or newline, wrap it in double quotes.
+      if (/[",\n]/.test(cellData)) {
+        // Also, double up any existing double quotes.
+        return `"${cellData.replace(/"/g, '""')}"`;
+      }
+      return cellData;
+    };
+
+    const csvRows = tickets.map(t => 
+      [
+        escapeCsvCell(t.id),
+        escapeCsvCell(t.submittedBy),
+        escapeCsvCell(t.deviceName),
+        escapeCsvCell(t.issueDescription),
+        escapeCsvCell(t.priority),
+        escapeCsvCell(t.status),
+        escapeCsvCell(format(parseISO(t.createdAt), 'yyyy-MM-dd HH:mm:ss'))
+      ].join(',')
+    ).join('\n');
+
+    const csvContent = csvHeader + csvRows;
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.setAttribute("href", url);
+    link.setAttribute("download", "tickets.csv");
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
 
   if (authLoading || ticketsLoading || !user) {
     return (
@@ -114,7 +149,13 @@ export default function DashboardPage() {
       <Header />
       <main className="flex-1 p-4 sm:p-6 lg:p-8">
         <div className="container mx-auto">
-            <h1 className="text-3xl font-bold tracking-tight mb-6">Admin Dashboard</h1>
+            <div className="flex items-center justify-between mb-6">
+                <h1 className="text-3xl font-bold tracking-tight">Admin Dashboard</h1>
+                <Button onClick={handleDownload} disabled={tickets.length === 0}>
+                    <Download className="mr-2 h-4 w-4" />
+                    Download as CSV
+                </Button>
+            </div>
             <Tabs defaultValue="active">
                 <TabsList>
                     <TabsTrigger value="active">Active Requests</TabsTrigger>
