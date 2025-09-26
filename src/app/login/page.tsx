@@ -40,8 +40,8 @@ export default function LoginPage() {
     if (!success) {
       toast({
         variant: "destructive",
-        title: "Login Failed",
-        description: "Invalid username or password. Please try again.",
+        title: "Échec de la connexion",
+        description: "Nom d'utilisateur ou mot de passe invalide. Veuillez réessayer.",
       });
     }
   };
@@ -49,7 +49,7 @@ export default function LoginPage() {
   const LoginForm = (
     <form onSubmit={handleLogin} className="space-y-4">
       <div className="space-y-2">
-        <Label htmlFor="username">Username</Label>
+        <Label htmlFor="username">Nom d'utilisateur</Label>
         <Input
           id="username"
           placeholder={role === "admin" ? "admin" : "user"}
@@ -60,7 +60,7 @@ export default function LoginPage() {
         />
       </div>
       <div className="space-y-2">
-        <Label htmlFor="password">Password</Label>
+        <Label htmlFor="password">Mot de passe</Label>
         <Input
           id="password"
           type="password"
@@ -72,7 +72,7 @@ export default function LoginPage() {
         />
       </div>
       <Button type="submit" className="w-full bg-primary hover:bg-primary/90">
-        Login
+        Se connecter
       </Button>
     </form>
   );
@@ -91,12 +91,12 @@ export default function LoginPage() {
             </div>
             <CardTitle className="text-2xl font-bold">Tickety Boo</CardTitle>
             <CardDescription>
-              Sign in to manage your IT tickets
+              Connectez-vous pour gérer vos tickets informatiques
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
             <TabsList className="grid w-full grid-cols-2">
-              <TabsTrigger value="user">User</TabsTrigger>
+              <TabsTrigger value="user">Utilisateur</TabsTrigger>
               <TabsTrigger value="admin">Admin</TabsTrigger>
             </TabsList>
             <TabsContent value="user">{LoginForm}</TabsContent>

@@ -18,7 +18,7 @@ export function Header() {
               Tickety Boo
             </span>
           </div>
-          <Button variant="ghost" size="icon" onClick={logout} aria-label="Log out">
+          <Button variant="ghost" size="icon" onClick={logout} aria-label="Se déconnecter">
             <LogOut className="h-5 w-5" />
           </Button>
         </div>

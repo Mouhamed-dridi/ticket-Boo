@@ -36,11 +36,11 @@ import { useToast } from "@/hooks/use-toast";
 import { Loader2 } from "lucide-react";
 
 const requestFormSchema = z.object({
-  name: z.string().min(2, { message: "Name must be at least 2 characters." }),
-  id: z.string().min(1, { message: "ID is required." }),
-  deviceProblem: z.string({ required_error: "Please select a problem type." }),
-  site: z.string({ required_error: "Please select a site." }),
-  postName: z.string({ required_error: "Please select a post name." }),
+  name: z.string().min(2, { message: "Le nom doit comporter au moins 2 caractères." }),
+  id: z.string().min(1, { message: "L'ID est requis." }),
+  deviceProblem: z.string({ required_error: "Veuillez sélectionner un type de problème." }),
+  site: z.string({ required_error: "Veuillez sélectionner un site." }),
+  postName: z.string({ required_error: "Veuillez sélectionner un nom de poste." }),
 });
 
 const problemTypes = [
@@ -50,7 +50,7 @@ const problemTypes = [
     "souris"
 ];
 const sites = ["misfat 1", "misfat 2", "misfat 3"];
-const postNames = ["Manager", "Developer", "Designer", "Support Staff"];
+const postNames = ["Manager", "Développeur", "Designer", "Personnel de soutien"];
 
 export default function RequestPage() {
   const { user, loading: authLoading } = useAuth();
@@ -82,14 +82,14 @@ export default function RequestPage() {
 
   function onSubmit(values: z.infer<typeof requestFormSchema>) {
     addTicket({
-      deviceName: values.deviceProblem, // Re-using deviceName for the problem
-      issueDescription: `Site: ${values.site}, Post: ${values.postName}, User: ${values.name} (${values.id})`,
-      priority: 'Medium', // Defaulting priority as it's not in the new form
+      deviceName: values.deviceProblem,
+      issueDescription: `Site: ${values.site}, Poste: ${values.postName}, Utilisateur: ${values.name} (${values.id})`,
+      priority: 'Medium',
       submittedBy: user!.username,
     });
     toast({
-      title: "Request Submitted!",
-      description: "Your IT ticket has been successfully created.",
+      title: "Demande soumise !",
+      description: "Votre ticket informatique a été créé avec succès.",
     });
     form.reset();
   }
@@ -100,9 +100,9 @@ export default function RequestPage() {
       <main className="flex flex-1 items-center justify-center p-4">
         <Card className="w-full max-w-2xl">
           <CardHeader>
-            <CardTitle className="text-2xl">Submit a new IT Request</CardTitle>
+            <CardTitle className="text-2xl">Soumettre une nouvelle demande informatique</CardTitle>
             <CardDescription>
-              Please fill out the form below to report an issue.
+              Veuillez remplir le formulaire ci-dessous pour signaler un problème.
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -114,9 +114,9 @@ export default function RequestPage() {
                     name="name"
                     render={({ field }) => (
                         <FormItem>
-                        <FormLabel>Name</FormLabel>
+                        <FormLabel>Nom</FormLabel>
                         <FormControl>
-                            <Input placeholder="e.g., John Doe" {...field} />
+                            <Input placeholder="ex: Jean Dupont" {...field} />
                         </FormControl>
                         <FormMessage />
                         </FormItem>
@@ -129,7 +129,7 @@ export default function RequestPage() {
                         <FormItem>
                         <FormLabel>ID</FormLabel>
                         <FormControl>
-                            <Input placeholder="e.g., 12345" {...field} />
+                            <Input placeholder="ex: 12345" {...field} />
                         </FormControl>
                         <FormMessage />
                         </FormItem>
@@ -141,11 +141,11 @@ export default function RequestPage() {
                   name="deviceProblem"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Device Problem</FormLabel>
+                      <FormLabel>Problème d'appareil</FormLabel>
                       <Select onValueChange={field.onChange} defaultValue={field.value}>
                         <FormControl>
                           <SelectTrigger>
-                            <SelectValue placeholder="Select a problem type" />
+                            <SelectValue placeholder="Sélectionnez un type de problème" />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
@@ -167,7 +167,7 @@ export default function RequestPage() {
                       <Select onValueChange={field.onChange} defaultValue={field.value}>
                         <FormControl>
                           <SelectTrigger>
-                            <SelectValue placeholder="Select a site" />
+                            <SelectValue placeholder="Sélectionnez un site" />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
@@ -185,11 +185,11 @@ export default function RequestPage() {
                   name="postName"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Post Name</FormLabel>
+                      <FormLabel>Nom du poste</FormLabel>
                       <Select onValueChange={field.onChange} defaultValue={field.value}>
                         <FormControl>
                           <SelectTrigger>
-                            <SelectValue placeholder="Select a post name" />
+                            <SelectValue placeholder="Sélectionnez un nom de poste" />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
@@ -204,7 +204,7 @@ export default function RequestPage() {
                 />
                 <Button type="submit" className="w-full sm:w-auto" disabled={form.formState.isSubmitting}>
                    {form.formState.isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                  Submit Request
+                  Soumettre la demande
                 </Button>
               </form>
             </Form>

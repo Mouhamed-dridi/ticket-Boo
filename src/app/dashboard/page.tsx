@@ -19,7 +19,8 @@ import { CheckCircle, XCircle, Loader2, Download, RefreshCcw } from "lucide-reac
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { format, parseISO } from 'date-fns';
-import type { Ticket, TicketPriority } from "@/lib/types";
+import type { Ticket, TicketPriority, TicketStatus } from "@/lib/types";
+import { fr } from 'date-fns/locale';
 
 
 export default function DashboardPage() {
@@ -42,7 +43,7 @@ export default function DashboardPage() {
   }, [tickets]);
 
   const handleDownload = () => {
-    const csvHeader = "ID,Submitted By,Device Name,Issue Description,Priority,Status,Created At\n";
+    const csvHeader = "ID,Soumis par,Nom de l'appareil,Description du problème,Priorité,Statut,Créé le\n";
     
     const escapeCsvCell = (cellData: string) => {
       // If the cell data contains a comma, double quote, or newline, wrap it in double quotes.
@@ -84,13 +85,25 @@ export default function DashboardPage() {
     );
   }
   
+  const priorityTranslations: Record<TicketPriority, string> = {
+    Low: "Bas",
+    Medium: "Moyen",
+    High: "Haut",
+  };
+
+  const statusTranslations: Record<TicketStatus, string> = {
+    Pending: "En attente",
+    Done: "Terminé",
+    Cancelled: "Annulé",
+  };
+
   const PriorityBadge = ({ priority }: { priority: TicketPriority }) => {
     const priorityClasses = {
       Low: "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300",
       Medium: "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300",
       High: "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300",
     };
-    return <Badge className={`${priorityClasses[priority]} border-none`}>{priority}</Badge>;
+    return <Badge className={`${priorityClasses[priority]} border-none`}>{priorityTranslations[priority]}</Badge>;
   };
 
   const TicketTable = ({ data }: { data: Ticket[] }) => (
@@ -98,11 +111,11 @@ export default function DashboardPage() {
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead className="w-[120px]">User</TableHead>
-            <TableHead>Device</TableHead>
-            <TableHead>Issue</TableHead>
-            <TableHead className="text-center">Priority</TableHead>
-            <TableHead className="text-center">Status</TableHead>
+            <TableHead className="w-[120px]">Utilisateur</TableHead>
+            <TableHead>Appareil</TableHead>
+            <TableHead>Problème</TableHead>
+            <TableHead className="text-center">Priorité</TableHead>
+            <TableHead className="text-center">Statut</TableHead>
             <TableHead>Date</TableHead>
             <TableHead className="text-right">Actions</TableHead>
           </TableRow>
@@ -115,20 +128,20 @@ export default function DashboardPage() {
                 <TableCell>{ticket.deviceName}</TableCell>
                 <TableCell className="max-w-xs truncate">{ticket.issueDescription}</TableCell>
                 <TableCell className="text-center"><PriorityBadge priority={ticket.priority} /></TableCell>
-                <TableCell className="text-center"><Badge variant={ticket.status === 'Pending' ? 'secondary' : 'outline'}>{ticket.status}</Badge></TableCell>
-                <TableCell>{format(parseISO(ticket.createdAt), 'MMM d, yyyy')}</TableCell>
+                <TableCell className="text-center"><Badge variant={ticket.status === 'Pending' ? 'secondary' : 'outline'}>{statusTranslations[ticket.status]}</Badge></TableCell>
+                <TableCell>{format(parseISO(ticket.createdAt), 'd MMM yyyy', { locale: fr })}</TableCell>
                 <TableCell className="text-right">
                     {ticket.status === 'Pending' ? (
                         <div className="flex justify-end gap-2">
-                            <Button variant="ghost" size="icon" onClick={() => updateTicketStatus(ticket.id, 'Done')} aria-label="Mark as Done">
+                            <Button variant="ghost" size="icon" onClick={() => updateTicketStatus(ticket.id, 'Done')} aria-label="Marquer comme terminé">
                                 <CheckCircle className="h-5 w-5 text-green-500"/>
                             </Button>
-                            <Button variant="ghost" size="icon" onClick={() => updateTicketStatus(ticket.id, 'Cancelled')} aria-label="Cancel">
+                            <Button variant="ghost" size="icon" onClick={() => updateTicketStatus(ticket.id, 'Cancelled')} aria-label="Annuler">
                                 <XCircle className="h-5 w-5 text-red-500"/>
                             </Button>
                         </div>
                     ) : (
-                        <Button variant="ghost" size="icon" onClick={() => updateTicketStatus(ticket.id, 'Pending')} aria-label="Re-open request">
+                        <Button variant="ghost" size="icon" onClick={() => updateTicketStatus(ticket.id, 'Pending')} aria-label="Rouvrir la demande">
                             <RefreshCcw className="h-5 w-5 text-blue-500" />
                         </Button>
                     )}
@@ -138,7 +151,7 @@ export default function DashboardPage() {
           ) : (
             <TableRow>
               <TableCell colSpan={7} className="text-center h-24">
-                No tickets found.
+                Aucun ticket trouvé.
               </TableCell>
             </TableRow>
           )}
@@ -154,15 +167,15 @@ export default function DashboardPage() {
       <main className="flex-1 p-4 sm:p-6 lg:p-8">
         <div className="container mx-auto">
             <div className="flex items-center justify-between mb-6">
-                <h1 className="text-3xl font-bold tracking-tight">Admin Dashboard</h1>
+                <h1 className="text-3xl font-bold tracking-tight">Tableau de bord administrateur</h1>
                 <Button onClick={handleDownload} disabled={tickets.length === 0}>
                     <Download className="mr-2 h-4 w-4" />
-                    Download as CSV
+                    Télécharger en CSV
                 </Button>
             </div>
             <Tabs defaultValue="active">
                 <TabsList>
-                    <TabsTrigger value="active">Active Requests</TabsTrigger>
+                    <TabsTrigger value="active">Demandes Actives</TabsTrigger>
                     <TabsTrigger value="archive">Archive</TabsTrigger>
                 </TabsList>
                 <Card className="mt-4">
