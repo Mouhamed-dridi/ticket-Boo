@@ -44,10 +44,10 @@ const requestFormSchema = z.object({
 });
 
 const problemTypes = [
-    "printer label",
-    "codde bar",
-    "clave",
-    "souris"
+    "imprimante étiquette",
+    "code barre",
+    "souris",
+    "écran"
 ];
 const sites = ["misfat 1", "misfat 2", "misfat 3"];
 const postNames = ["Manager", "Développeur", "Designer", "Personnel de soutien"];
