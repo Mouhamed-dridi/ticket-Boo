@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { CheckCircle, XCircle, Loader2, Download } from "lucide-react";
+import { CheckCircle, XCircle, Loader2, Download, RefreshCcw } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { format, parseISO } from 'date-fns';
@@ -118,7 +118,7 @@ export default function DashboardPage() {
                 <TableCell className="text-center"><Badge variant={ticket.status === 'Pending' ? 'secondary' : 'outline'}>{ticket.status}</Badge></TableCell>
                 <TableCell>{format(parseISO(ticket.createdAt), 'MMM d, yyyy')}</TableCell>
                 <TableCell className="text-right">
-                    {ticket.status === 'Pending' && (
+                    {ticket.status === 'Pending' ? (
                         <div className="flex justify-end gap-2">
                             <Button variant="ghost" size="icon" onClick={() => updateTicketStatus(ticket.id, 'Done')} aria-label="Mark as Done">
                                 <CheckCircle className="h-5 w-5 text-green-500"/>
@@ -127,6 +127,10 @@ export default function DashboardPage() {
                                 <XCircle className="h-5 w-5 text-red-500"/>
                             </Button>
                         </div>
+                    ) : (
+                        <Button variant="ghost" size="icon" onClick={() => updateTicketStatus(ticket.id, 'Pending')} aria-label="Re-open request">
+                            <RefreshCcw className="h-5 w-5 text-blue-500" />
+                        </Button>
                     )}
                 </TableCell>
               </TableRow>
