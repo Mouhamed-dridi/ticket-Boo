@@ -155,7 +155,7 @@ export default function DashboardPage() {
             <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
                 <h1 className="text-3xl font-bold tracking-tight">Tableau de bord administrateur</h1>
                 <div className="flex items-center gap-2">
-                    <Button onClick={() => { /* TODO: Implement report logic */ }}>
+                    <Button onClick={() => router.push('/report')}>
                         <FileText className="mr-2 h-4 w-4" />
                         Rapport de suivi
                     </Button>
@@ -186,5 +186,3 @@ export default function DashboardPage() {
     </div>
   );
 }
-
-    
