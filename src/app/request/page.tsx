@@ -2,8 +2,8 @@
 
 import { useAuth } from "@/hooks/use-auth";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
-import { useForm } from "react-hook-form";
+import { useEffect, useState } from "react";
+import { useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Header } from "@/components/header";
@@ -50,13 +50,26 @@ const problemTypes = [
     "écran"
 ];
 const sites = ["misfat 1", "misfat 2", "misfat 3"];
-const postNames = ["Manager", "Développeur", "Designer", "Personnel de soutien"];
+
+const postNamesBySite: Record<string, string[]> = {
+    "misfat 1": [
+        "PQ1-B03B10", "PQ1-ATELIER-MAI", "PQ1-ATELIERMATI", "PQ1-B11B14", "PQ1-BYPASS",
+        "PQ1-C04C24", "PQ1-C35C38", "PQ1-HYD", "PQ1-HYDAUTO", "PQ1-PAOT", "PQ1-PAOT2",
+        "PQ1-PEINT", "PQ1-PEINTAUTO", "PQ1-PRFAAI", "PQ1-ROBOFIL"
+    ],
+    "misfat 2": ["Poste A2", "Poste B2", "Poste C2"],
+    "misfat 3": ["Poste A3", "Poste B3", "Poste C3"],
+};
+const defaultPostNames = ["Manager", "Développeur", "Designer", "Personnel de soutien"];
+
 
 export default function RequestPage() {
   const { user, loading: authLoading } = useAuth();
   const router = useRouter();
   const { addTicket } = useTickets();
   const { toast } = useToast();
+  
+  const [postNames, setPostNames] = useState<string[]>(defaultPostNames);
 
   const form = useForm<z.infer<typeof requestFormSchema>>({
     resolver: zodResolver(requestFormSchema),
@@ -65,6 +78,20 @@ export default function RequestPage() {
       id: "",
     },
   });
+
+  const selectedSite = useWatch({
+      control: form.control,
+      name: 'site'
+  });
+
+  useEffect(() => {
+    if (selectedSite) {
+        setPostNames(postNamesBySite[selectedSite] || defaultPostNames);
+        form.setValue('postName', '');
+    } else {
+        setPostNames(defaultPostNames);
+    }
+  }, [selectedSite, form]);
 
   useEffect(() => {
     if (!authLoading && !user) {
@@ -186,7 +213,7 @@ export default function RequestPage() {
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Nom du poste</FormLabel>
-                      <Select onValueChange={field.onChange} defaultValue={field.value}>
+                      <Select onValueChange={field.onChange} value={field.value}>
                         <FormControl>
                           <SelectTrigger>
                             <SelectValue placeholder="Sélectionnez un nom de poste" />
