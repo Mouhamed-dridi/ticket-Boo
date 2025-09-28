@@ -96,6 +96,7 @@ export default function DashboardPage() {
         <TableHeader>
           <TableRow>
             <TableHead>Nom et Prénom</TableHead>
+            <TableHead>Matricule</TableHead>
             <TableHead>Problème d'appareil</TableHead>
             <TableHead>Site</TableHead>
             <TableHead>Nom du poste</TableHead>
@@ -109,6 +110,7 @@ export default function DashboardPage() {
             data.map((ticket) => (
               <TableRow key={ticket.id}>
                 <TableCell className="font-medium">{ticket.userName}</TableCell>
+                <TableCell>{ticket.userMatricule}</TableCell>
                 <TableCell>{ticket.deviceName}</TableCell>
                 <TableCell>{ticket.site}</TableCell>
                 <TableCell>{ticket.postName}</TableCell>
@@ -134,7 +136,7 @@ export default function DashboardPage() {
             ))
           ) : (
             <TableRow>
-              <TableCell colSpan={7} className="text-center h-24">
+              <TableCell colSpan={8} className="text-center h-24">
                 Aucun ticket trouvé.
               </TableCell>
             </TableRow>
