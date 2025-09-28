@@ -135,6 +135,7 @@ export default function ReportPage() {
       description: "Votre rapport de suivi a été envoyé avec succès.",
     });
     form.reset();
+    router.push('/report-dashboard');
   }
 
   return (
