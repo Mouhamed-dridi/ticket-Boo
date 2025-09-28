@@ -47,7 +47,9 @@ const problemTypes = [
     "imprimante étiquette",
     "code barre",
     "souris",
-    "écran"
+    "écran",
+    "pc",
+    "clavier"
 ];
 const sites = ["misfat 1", "misfat 2", "misfat 3"];
 
