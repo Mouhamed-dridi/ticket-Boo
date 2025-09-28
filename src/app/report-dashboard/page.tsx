@@ -17,6 +17,7 @@ import { Loader2, Server, HardDrive, Monitor, AlertTriangle, FileText, Calendar 
 import { format, parseISO } from "date-fns";
 import { fr } from "date-fns/locale";
 import type { Report } from "@/lib/types";
+import { Button } from "@/components/ui/button";
 
 export default function ReportDashboardPage() {
   const { user, loading: authLoading } = useAuth();
