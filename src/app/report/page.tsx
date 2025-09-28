@@ -33,6 +33,7 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { Loader2 } from "lucide-react";
+import { useReports } from "@/hooks/use-reports";
 
 const reportFormSchema = z.object({
   site: z.string({ required_error: "Veuillez sélectionner un site." }),
@@ -83,11 +84,20 @@ export default function ReportPage() {
   const { user, loading: authLoading } = useAuth();
   const router = useRouter();
   const { toast } = useToast();
+  const { addReport } = useReports();
   
   const [postNames, setPostNames] = useState<string[]>(defaultPostNames);
 
   const form = useForm<z.infer<typeof reportFormSchema>>({
     resolver: zodResolver(reportFormSchema),
+    defaultValues: {
+        site: "",
+        postName: "",
+        problem: "",
+        os: "",
+        pcType: "",
+        description: "",
+    }
   });
 
   const selectedSite = useWatch({
@@ -119,7 +129,7 @@ export default function ReportPage() {
   }
 
   function onSubmit(values: z.infer<typeof reportFormSchema>) {
-    console.log(values);
+    addReport(values);
     toast({
       title: "Rapport soumis !",
       description: "Votre rapport de suivi a été envoyé avec succès.",
@@ -148,7 +158,7 @@ export default function ReportPage() {
                     render={({ field }) => (
                         <FormItem>
                         <FormLabel>Site</FormLabel>
-                        <Select onValueChange={field.onChange} defaultValue={field.value}>
+                        <Select onValueChange={field.onChange} value={field.value}>
                             <FormControl>
                             <SelectTrigger>
                                 <SelectValue placeholder="Sélectionnez un site" />
@@ -193,7 +203,7 @@ export default function ReportPage() {
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Problème</FormLabel>
-                      <Select onValueChange={field.onChange} defaultValue={field.value}>
+                      <Select onValueChange={field.onChange} value={field.value}>
                         <FormControl>
                           <SelectTrigger>
                             <SelectValue placeholder="Sélectionnez un problème" />
@@ -216,7 +226,7 @@ export default function ReportPage() {
                     render={({ field }) => (
                         <FormItem>
                         <FormLabel>OS</FormLabel>
-                        <Select onValueChange={field.onChange} defaultValue={field.value}>
+                        <Select onValueChange={field.onChange} value={field.value}>
                             <FormControl>
                             <SelectTrigger>
                                 <SelectValue placeholder="Sélectionnez un OS" />
@@ -238,7 +248,7 @@ export default function ReportPage() {
                     render={({ field }) => (
                         <FormItem>
                         <FormLabel>Type PC</FormLabel>
-                        <Select onValueChange={field.onChange} defaultValue={field.value}>
+                        <Select onValueChange={field.onChange} value={field.value}>
                             <FormControl>
                             <SelectTrigger>
                                 <SelectValue placeholder="Sélectionnez un type de PC" />

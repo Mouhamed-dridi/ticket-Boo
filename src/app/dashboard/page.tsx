@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { CheckCircle, XCircle, Loader2, Download, RefreshCcw, FileText } from "lucide-react";
+import { CheckCircle, XCircle, Loader2, Download, RefreshCcw, FileText, ClipboardList } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { format, parseISO } from 'date-fns';
@@ -155,9 +155,13 @@ export default function DashboardPage() {
             <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
                 <h1 className="text-3xl font-bold tracking-tight">Tableau de bord administrateur</h1>
                 <div className="flex items-center gap-2">
+                    <Button variant="outline" onClick={() => router.push('/report-dashboard')}>
+                        <ClipboardList className="mr-2 h-4 w-4" />
+                        Voir les rapports
+                    </Button>
                     <Button onClick={() => router.push('/report')}>
                         <FileText className="mr-2 h-4 w-4" />
-                        Rapport de suivi
+                        Créer un rapport
                     </Button>
                     <Button onClick={handleDownload} disabled={tickets.length === 0}>
                         <Download className="mr-2 h-4 w-4" />

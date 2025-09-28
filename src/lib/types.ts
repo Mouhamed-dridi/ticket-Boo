@@ -21,3 +21,14 @@ export interface Ticket {
   userName: string;
   userMatricule: string;
 }
+
+export interface Report {
+  id: string;
+  site: string;
+  postName: string;
+  problem: string;
+  os: string;
+  pcType: string;
+  description: string;
+  createdAt: string;
+}
