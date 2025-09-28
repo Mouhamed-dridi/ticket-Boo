@@ -155,7 +155,7 @@ export default function RequestPage() {
                         <FormItem>
                         <FormLabel>Nom et Prénom</FormLabel>
                         <FormControl>
-                            <Input placeholder="ex: Jean Dupont" {...field} />
+                            <Input {...field} />
                         </FormControl>
                         <FormMessage />
                         </FormItem>
@@ -168,7 +168,7 @@ export default function RequestPage() {
                         <FormItem>
                         <FormLabel>Matricule</FormLabel>
                         <FormControl>
-                            <Input placeholder="ex: 12345" {...field} />
+                            <Input {...field} />
                         </FormControl>
                         <FormMessage />
                         </FormItem>
