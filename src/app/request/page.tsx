@@ -62,7 +62,14 @@ const postNamesBySite: Record<string, string[]> = {
         "PQ2-LFAI", "PQ2-LFAV1", "PQ2-LFAV2", "PQ2-LFAV3", "PQ2-LFAVAUTO", "PQ2-LFGR1",
         "PQ2-LFGR2", "PQ2-LFGR3"
     ],
-    "misfat 3": ["Poste A3", "Poste B3", "Poste C3"],
+    "misfat 3": [
+        "PQ3-BANDE", "PQ3-D03D31", "PQ3-D18", "PQ3-D28D14", "PQ3-D29", "PQ3-ESSENCE",
+        "PQ3-G19", "PQ3-G26", "PQ3-G33", "PQ3-G39", "PQ3-H04", "PQ3-H08H27", "PQ3-H39",
+        "PQ3-H46", "PQ3-H53", "PQ3-H55", "PQ3-ISOTHERME", "PQ3-KITJOINT", "PQ3-LFAAI",
+        "PQ3-LFAH", "PQ3-LFAP", "PQ3-LFH53", "PQ3-LFHYD", "PQ3-LFN-H53", "PQ3-LFVN02",
+        "PQ3-LFVN1", "PQ3-LINP", "PQ3-M02M12", "PQ3-M21M41", "PQ3-MONOBLOC",
+        "PQ3-N25N29", "PQ3-Q01M43"
+    ],
 };
 const defaultPostNames = ["Manager", "Développeur", "Designer", "Personnel de soutien"];
 
