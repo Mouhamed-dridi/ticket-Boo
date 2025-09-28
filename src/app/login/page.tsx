@@ -52,7 +52,7 @@ export default function LoginPage() {
         <Label htmlFor="username">Nom d'utilisateur</Label>
         <Input
           id="username"
-          placeholder={role === "admin" ? "admin" : "user"}
+          placeholder={role === "admin" ? "" : "user"}
           required
           value={username}
           onChange={(e) => setUsername(e.target.value)}
@@ -64,7 +64,7 @@ export default function LoginPage() {
         <Input
           id="password"
           type="password"
-          placeholder={role === "admin" ? "admin123" : "user123"}
+          placeholder={role === "admin" ? "" : "user123"}
           required
           value={password}
           onChange={(e) => setPassword(e.target.value)}
