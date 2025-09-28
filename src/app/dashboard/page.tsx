@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { CheckCircle, XCircle, Loader2, Download, RefreshCcw } from "lucide-react";
+import { CheckCircle, XCircle, Loader2, Download, RefreshCcw, FileText } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { format, parseISO } from 'date-fns';
@@ -152,12 +152,18 @@ export default function DashboardPage() {
       <Header />
       <main className="flex-1 p-4 sm:p-6 lg:p-8">
         <div className="container mx-auto">
-            <div className="flex items-center justify-between mb-6">
+            <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
                 <h1 className="text-3xl font-bold tracking-tight">Tableau de bord administrateur</h1>
-                <Button onClick={handleDownload} disabled={tickets.length === 0}>
-                    <Download className="mr-2 h-4 w-4" />
-                    Télécharger en CSV
-                </Button>
+                <div className="flex items-center gap-2">
+                    <Button onClick={() => { /* TODO: Implement report logic */ }}>
+                        <FileText className="mr-2 h-4 w-4" />
+                        Rapport de suivi
+                    </Button>
+                    <Button onClick={handleDownload} disabled={tickets.length === 0}>
+                        <Download className="mr-2 h-4 w-4" />
+                        Télécharger en CSV
+                    </Button>
+                </div>
             </div>
             <Tabs defaultValue="active">
                 <TabsList>
@@ -180,3 +186,5 @@ export default function DashboardPage() {
     </div>
   );
 }
+
+    
