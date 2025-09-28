@@ -68,11 +68,12 @@ const postNamesBySite: Record<string, string[]> = {
 const defaultPostNames = ["Manager", "Développeur", "Designer", "Personnel de soutien"];
 
 const problemTypes = [
-    "probleme ecran", 
-    "probleme lentuser systeme", 
-    "probleme docuchette",
-    "imp etiquette",
-    "demande cereaton copt gedtet coswin"
+    "Lecteur système",
+    "Douchette code-barres",
+    "Imprimante étiquettes",
+    "Problème écran",
+    "Demande installation câble",
+    "Installation clé Wi-Fi"
 ];
 
 const osTypes = ["windows 10", "windows 11"];
