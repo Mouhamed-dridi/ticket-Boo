@@ -22,12 +22,12 @@ export function TicketProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     try {
-      const storedTickets = localStorage.getItem("ticketyTickets");
+      const storedTickets = localStorage.getItem("coswinPlusTickets");
       if (storedTickets) {
         setTickets(JSON.parse(storedTickets));
       } else {
         setTickets(initialTickets);
-        localStorage.setItem("ticketyTickets", JSON.stringify(initialTickets));
+        localStorage.setItem("coswinPlusTickets", JSON.stringify(initialTickets));
       }
     } catch (error) {
       console.error("Failed to process tickets from localStorage", error);
@@ -39,7 +39,7 @@ export function TicketProvider({ children }: { children: ReactNode }) {
 
   const persistTickets = (updatedTickets: Ticket[]) => {
     setTickets(updatedTickets);
-    localStorage.setItem("ticketyTickets", JSON.stringify(updatedTickets));
+    localStorage.setItem("coswinPlusTickets", JSON.stringify(updatedTickets));
   };
 
   const addTicket = useCallback((ticketData: Omit<Ticket, "id" | "status" | "createdAt" | "priority" | "submittedBy"> & {name: string, id: string}) => {

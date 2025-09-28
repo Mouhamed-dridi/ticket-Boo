@@ -22,7 +22,7 @@ export function ReportProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     try {
-      const storedReports = localStorage.getItem("ticketyReports");
+      const storedReports = localStorage.getItem("coswinPlusReports");
       if (storedReports) {
         setReports(JSON.parse(storedReports));
       }
@@ -35,7 +35,7 @@ export function ReportProvider({ children }: { children: ReactNode }) {
 
   const persistReports = (updatedReports: Report[]) => {
     setReports(updatedReports);
-    localStorage.setItem("ticketyReports", JSON.stringify(updatedReports));
+    localStorage.setItem("coswinPlusReports", JSON.stringify(updatedReports));
   };
 
   const addReport = useCallback(

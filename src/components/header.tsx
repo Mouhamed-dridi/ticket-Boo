@@ -15,7 +15,7 @@ export function Header() {
           <div className="flex items-center gap-3">
             <Logo className="h-8 w-8 text-primary" />
             <span className="text-xl font-bold tracking-tight text-foreground">
-              Tickety Boo
+              Coswin+
             </span>
           </div>
           <Button variant="ghost" size="icon" onClick={logout} aria-label="Se déconnecter">

@@ -6,7 +6,7 @@ import { ReportProvider } from "@/contexts/report-context";
 import { Toaster } from "@/components/ui/toaster";
 
 export const metadata: Metadata = {
-  title: "Tickety Boo",
+  title: "Coswin+",
   description: "Système de gestion de tickets informatiques",
 };
 

@@ -89,7 +89,7 @@ export default function LoginPage() {
             <div className="mx-auto mb-4">
                 <Logo className="h-12 w-12 text-primary"/>
             </div>
-            <CardTitle className="text-2xl font-bold">Tickety Boo</CardTitle>
+            <CardTitle className="text-2xl font-bold">Coswin+</CardTitle>
             <CardDescription>
               Connectez-vous pour gérer vos tickets informatiques
             </CardDescription>

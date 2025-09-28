@@ -22,7 +22,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     try {
-      const storedUser = localStorage.getItem("ticketyUser");
+      const storedUser = localStorage.getItem("coswinPlusUser");
       if (storedUser) {
         setUser(JSON.parse(storedUser));
       }
@@ -38,13 +38,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     if (as_role === 'admin' && username === 'admin' && password_or_role === 'admin123') {
       const adminUser: User = { username, role: 'admin' };
       setUser(adminUser);
-      localStorage.setItem('ticketyUser', JSON.stringify(adminUser));
+      localStorage.setItem('coswinPlusUser', JSON.stringify(adminUser));
       router.push('/dashboard');
       success = true;
     } else if (as_role === 'user' && username === 'user' && password_or_role === 'user123') {
       const regularUser: User = { username, role: 'user' };
       setUser(regularUser);
-      localStorage.setItem('ticketyUser', JSON.stringify(regularUser));
+      localStorage.setItem('coswinPlusUser', JSON.stringify(regularUser));
       router.push('/request');
       success = true;
     }
@@ -53,7 +53,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const logout = useCallback(() => {
     setUser(null);
-    localStorage.removeItem("ticketyUser");
+    localStorage.removeItem("coswinPlusUser");
     router.push("/login");
   }, [router]);
 

@@ -1,10 +1,10 @@
-# Tickety Boo
+# Coswin+
 
 This is a ticketing and reporting system for IT issues, built with Next.js in Firebase Studio.
 
 ## Overview
 
-Tickety Boo is a web application designed to streamline IT support requests and incident reporting. It provides separate interfaces for regular users and administrators, each with tailored functionalities.
+Coswin+ is a web application designed to streamline IT support requests and incident reporting. It provides separate interfaces for regular users and administrators, each with tailored functionalities.
 
 ## Features
 
