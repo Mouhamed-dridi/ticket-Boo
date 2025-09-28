@@ -16,4 +16,8 @@ export interface Ticket {
   status: TicketStatus;
   submittedBy: string;
   createdAt: string;
+  site: string;
+  postName: string;
+  userName: string;
+  userMatricule: string;
 }

@@ -7,7 +7,7 @@ import type { Ticket, TicketStatus, TicketPriority } from "@/lib/types";
 interface TicketContextType {
   tickets: Ticket[];
   loading: boolean;
-  addTicket: (ticketData: Omit<Ticket, "id" | "status" | "createdAt">) => void;
+  addTicket: (ticketData: Omit<Ticket, "id" | "status" | "createdAt" | "priority" | "submittedBy"> & {name: string, id: string}) => void;
   updateTicketStatus: (ticketId: string, status: TicketStatus) => void;
 }
 
@@ -42,12 +42,17 @@ export function TicketProvider({ children }: { children: ReactNode }) {
     localStorage.setItem("ticketyTickets", JSON.stringify(updatedTickets));
   };
 
-  const addTicket = useCallback((ticketData: Omit<Ticket, "id" | "status" | "createdAt">) => {
+  const addTicket = useCallback((ticketData: Omit<Ticket, "id" | "status" | "createdAt" | "priority" | "submittedBy"> & {name: string, id: string}) => {
     const newTicket: Ticket = {
       ...ticketData,
       id: `TICKET-${String(Date.now()).slice(-4)}`,
       status: "Pending",
       createdAt: new Date().toISOString(),
+      priority: 'Medium',
+      submittedBy: 'user', // This is now static as per logic change
+      userName: ticketData.name,
+      userMatricule: ticketData.id,
+      issueDescription: `Problème avec ${ticketData.deviceName}`
     };
     const updatedTickets = [newTicket, ...tickets];
     persistTickets(updatedTickets);

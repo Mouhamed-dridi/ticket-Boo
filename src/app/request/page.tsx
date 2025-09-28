@@ -120,10 +120,11 @@ export default function RequestPage() {
 
   function onSubmit(values: z.infer<typeof requestFormSchema>) {
     addTicket({
+      name: values.name,
+      id: values.id,
       deviceName: values.deviceProblem,
-      issueDescription: `Site: ${values.site}, Poste: ${values.postName}, Utilisateur: ${values.name} (${values.id})`,
-      priority: 'Medium',
-      submittedBy: user!.username,
+      site: values.site,
+      postName: values.postName,
     });
     toast({
       title: "Demande soumise !",

@@ -19,7 +19,7 @@ import { CheckCircle, XCircle, Loader2, Download, RefreshCcw } from "lucide-reac
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { format, parseISO } from 'date-fns';
-import type { Ticket, TicketPriority, TicketStatus } from "@/lib/types";
+import type { Ticket, TicketStatus } from "@/lib/types";
 import { fr } from 'date-fns/locale';
 
 
@@ -43,12 +43,10 @@ export default function DashboardPage() {
   }, [tickets]);
 
   const handleDownload = () => {
-    const csvHeader = "ID,Soumis par,Nom de l'appareil,Description du problème,Priorité,Statut,Créé le\n";
+    const csvHeader = "ID,Utilisateur,Matricule,Appareil,Site,Nom du poste,Statut,Créé le\n";
     
     const escapeCsvCell = (cellData: string) => {
-      // If the cell data contains a comma, double quote, or newline, wrap it in double quotes.
       if (/[",\n]/.test(cellData)) {
-        // Also, double up any existing double quotes.
         return `"${cellData.replace(/"/g, '""')}"`;
       }
       return cellData;
@@ -57,10 +55,11 @@ export default function DashboardPage() {
     const csvRows = tickets.map(t => 
       [
         escapeCsvCell(t.id),
-        escapeCsvCell(t.submittedBy),
+        escapeCsvCell(t.userName),
+        escapeCsvCell(t.userMatricule),
         escapeCsvCell(t.deviceName),
-        escapeCsvCell(t.issueDescription),
-        escapeCsvCell(t.priority),
+        escapeCsvCell(t.site),
+        escapeCsvCell(t.postName),
         escapeCsvCell(t.status),
         escapeCsvCell(format(parseISO(t.createdAt), 'yyyy-MM-dd HH:mm:ss'))
       ].join(',')
@@ -85,25 +84,10 @@ export default function DashboardPage() {
     );
   }
   
-  const priorityTranslations: Record<TicketPriority, string> = {
-    Low: "Bas",
-    Medium: "Moyen",
-    High: "Haut",
-  };
-
   const statusTranslations: Record<TicketStatus, string> = {
     Pending: "En attente",
     Done: "Terminé",
     Cancelled: "Annulé",
-  };
-
-  const PriorityBadge = ({ priority }: { priority: TicketPriority }) => {
-    const priorityClasses = {
-      Low: "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300",
-      Medium: "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300",
-      High: "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300",
-    };
-    return <Badge className={`${priorityClasses[priority]} border-none`}>{priorityTranslations[priority]}</Badge>;
   };
 
   const TicketTable = ({ data }: { data: Ticket[] }) => (
@@ -111,10 +95,10 @@ export default function DashboardPage() {
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead className="w-[120px]">Utilisateur</TableHead>
+            <TableHead>Utilisateur</TableHead>
             <TableHead>Appareil</TableHead>
-            <TableHead>Problème</TableHead>
-            <TableHead className="text-center">Priorité</TableHead>
+            <TableHead>Site</TableHead>
+            <TableHead>Nom du poste</TableHead>
             <TableHead className="text-center">Statut</TableHead>
             <TableHead>Date</TableHead>
             <TableHead className="text-right">Actions</TableHead>
@@ -124,10 +108,10 @@ export default function DashboardPage() {
           {data.length > 0 ? (
             data.map((ticket) => (
               <TableRow key={ticket.id}>
-                <TableCell className="font-medium">{ticket.submittedBy}</TableCell>
+                <TableCell className="font-medium">{ticket.userName} ({ticket.userMatricule})</TableCell>
                 <TableCell>{ticket.deviceName}</TableCell>
-                <TableCell className="max-w-xs truncate">{ticket.issueDescription}</TableCell>
-                <TableCell className="text-center"><PriorityBadge priority={ticket.priority} /></TableCell>
+                <TableCell>{ticket.site}</TableCell>
+                <TableCell>{ticket.postName}</TableCell>
                 <TableCell className="text-center"><Badge variant={ticket.status === 'Pending' ? 'secondary' : 'outline'}>{statusTranslations[ticket.status]}</Badge></TableCell>
                 <TableCell>{format(parseISO(ticket.createdAt), 'd MMM yyyy', { locale: fr })}</TableCell>
                 <TableCell className="text-right">
