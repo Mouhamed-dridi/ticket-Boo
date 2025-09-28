@@ -76,7 +76,7 @@ const problemTypes = [
 ];
 
 const osTypes = ["windows 10", "windows 11"];
-const pcTypes = ["dell intel", "other"];
+const pcTypes = ["mini pc dell", "mini pc intel", "deskop dell", "other"];
 
 export default function ReportPage() {
   const { user, loading: authLoading } = useAuth();
