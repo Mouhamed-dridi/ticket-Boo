@@ -98,6 +98,7 @@ export default function DashboardPage() {
             <TableHead>Nom et Prénom</TableHead>
             <TableHead>Problème d'appareil</TableHead>
             <TableHead>Site</TableHead>
+            <TableHead>Nom du poste</TableHead>
             <TableHead className="text-center">Statut</TableHead>
             <TableHead>Date</TableHead>
             <TableHead className="text-right">Actions</TableHead>
@@ -110,6 +111,7 @@ export default function DashboardPage() {
                 <TableCell className="font-medium">{ticket.userName}</TableCell>
                 <TableCell>{ticket.deviceName}</TableCell>
                 <TableCell>{ticket.site}</TableCell>
+                <TableCell>{ticket.postName}</TableCell>
                 <TableCell className="text-center"><Badge variant={ticket.status === 'Pending' ? 'secondary' : 'outline'}>{statusTranslations[ticket.status]}</Badge></TableCell>
                 <TableCell>{format(parseISO(ticket.createdAt), 'd MMM yyyy', { locale: fr })}</TableCell>
                 <TableCell className="text-right">
@@ -132,7 +134,7 @@ export default function DashboardPage() {
             ))
           ) : (
             <TableRow>
-              <TableCell colSpan={6} className="text-center h-24">
+              <TableCell colSpan={7} className="text-center h-24">
                 Aucun ticket trouvé.
               </TableCell>
             </TableRow>
